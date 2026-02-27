@@ -158,17 +158,6 @@ class P2PNode {
             });
         });
     }
-    private async dataHandler() : Promise<void> {
-	let buffer = "";
-	this.seedSocket.on("data", (data) => {
-		buffer = data.toString();
-		const reqList = buffer.trim().split('\n');
-		for (const req of reqList) {
-			let obj = JSON.parse(req);
-			if (obj.type == "PEER")
-		}
-	})
-    }
 
     // FIX: Generic promise wrapper that resolves with the next seed message
     private awaitSeedResponse<T>(): Promise<T> {
