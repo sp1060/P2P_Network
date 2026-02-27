@@ -42,10 +42,7 @@ class P2PNode {
     private handleIncomingConnection(socket: net.Socket) {
         console.log("Incoming connection");
 
-        socket.on("data", (data) => {
-            console.log("Received:", data.toString());
-        });
-
+	dataHandler();
         socket.on("error", () => {
             socket.destroy();
         });
@@ -60,7 +57,7 @@ class P2PNode {
                     this.seedConnected = true;
                     console.log("Connected to seed");
                     resolve();
-                }
+		}
             );
 
             this.seedSocket.on("error", (err) => {
@@ -69,19 +66,31 @@ class P2PNode {
             });
         });
     }
+    private async dataHandler() : Promise<void> {
+	let buffer = "";
+	this.seedSocket.on("data", (data) => {
+		buffer = data.toString();
+		const reqList = buffer.trim().split('\n');
+		for (const req of reqList) {
+			let obj = JSON.parse(req);
+			if (obj.type == "PEER")
+		}
+	})
+    }
 
     private async fetchUpdatedPeerList(): Promise<Peer[]> {
         return new Promise((resolve, reject) => {
             this.seedSocket.write(JSON.stringify({ type: "GET_PEERS" }) + "\n");
-
+	    await dataHandler();
             this.seedSocket.once("data", (data) => {
                 try {
 		    // Newline determined 
 		    // Store each request and determine how will the next stage get affected 
-		    // If I normally do JSON parse it will return an error
-		    let requests = data.toString();
-		    let requestsList = [];
-		    data.
+		    let requests = data.toString().trim().split('\n');
+		    for (const req of requests ) {
+			
+
+		    }
                     const peers: Peer[] = JSON.parse(data.toString());
                     resolve(peers);
                 } catch (err) {
