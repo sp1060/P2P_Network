@@ -34,6 +34,28 @@ function log(message: string) {
     fs.appendFileSync(LOG_FILE, formatted + "\n");
 }
 
+// Probabilistic preferential attachment: sample k nodes weighted by degree
+function weightedSample(candidates: InternalPeer[], k: number): InternalPeer[] {
+    const selected: InternalPeer[] = [];
+    const pool = [...candidates];
+
+    for (let i = 0; i < k && pool.length > 0; i++) {
+        // Nodes with degree 0 still get a baseline weight of 1 so they're never locked out
+        const totalWeight = pool.reduce((sum, p) => sum + (p.degree || 1), 0);
+        let rand = Math.random() * totalWeight;
+
+        const idx = pool.findIndex(p => {
+            rand -= (p.degree || 1);
+            return rand <= 0;
+        });
+
+        const chosen = pool.splice(idx === -1 ? pool.length - 1 : idx, 1)[0];
+        selected.push(chosen);
+    }
+
+    return selected;
+}
+
 // Helper: Generates a 2-degree local topology for a specific node
 function getLocalTopology(targetId: string): PeerData[] {
     const targetNode = peerList.find(p => p.id === targetId);
@@ -105,10 +127,8 @@ const server = net.createServer((socket) => {
 
                     log(`JOIN request from ${newPeer.id}`);
 
-                    // Preferential attachment: pick top 2 hubs
-                    const hubs = [...peerList]
-                        .sort((a, b) => b.degree - a.degree)
-                        .slice(0, 2);
+                    // Preferential attachment: probabilistic weighted sample by degree
+                    const hubs = weightedSample(peerList, 2);
 
                     peerList.push(newPeer);
 
