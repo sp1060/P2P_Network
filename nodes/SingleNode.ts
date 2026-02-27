@@ -24,9 +24,13 @@ class P2PNode {
 
     async start() {
         this.startServer();
-        await this.connectSeed();
-        await this.bootstrap();
-        this.startBackgroundTasks();
+        try {
+            await this.connectSeed();
+            await this.bootstrap();
+            this.startBackgroundTasks();
+        } catch (err) {
+            console.error("Failed to start node:", err);
+        }
     }
 
     private startServer() {
@@ -40,135 +44,118 @@ class P2PNode {
     }
 
     private handleIncomingConnection(socket: net.Socket) {
-        console.log("Incoming connection");
-
         socket.on("data", (data) => {
-            console.log("Received:", data.toString());
+            // Basic PING/PONG or message handling
+            const msg = data.toString().trim();
+            if (msg.includes("PING")) {
+                socket.write(JSON.stringify({ type: "PONG" }) + "\n");
+		console.log("Ping recieved by the socket")
+            }
         });
-
-        socket.on("error", () => {
-            socket.destroy();
-        });
+        socket.on("error", () => socket.destroy());
     }
 
     private async connectSeed(): Promise<void> {
         return new Promise((resolve, reject) => {
-            this.seedSocket = net.createConnection(
-                SEED_PORT,
-                SEED_HOST,
-                () => {
-                    this.seedConnected = true;
-                    console.log("Connected to seed");
-                    resolve();
-                }
-            );
-
-            this.seedSocket.on("error", (err) => {
-                this.seedConnected = false;
-                reject(err);
+            this.seedSocket = net.createConnection(SEED_PORT, SEED_HOST, () => {
+                this.seedConnected = true;
+                this.seedSocket.write(JSON.stringify({
+                    type: "REGISTER",
+                    node: this.node
+                }) + "\n");
+                resolve();
             });
+
+            this.seedSocket.on("error", reject);
         });
     }
 
     private async fetchUpdatedPeerList(): Promise<Peer[]> {
         return new Promise((resolve, reject) => {
-            this.seedSocket.write(JSON.stringify({ type: "GET_PEERS" }) + "\n");
-
-            this.seedSocket.once("data", (data) => {
+            const onData = (data: Buffer) => {
                 try {
                     const peers: Peer[] = JSON.parse(data.toString());
+                    console.log(peers);
+		    this.seedSocket.removeListener("data", onData);
+
                     resolve(peers);
                 } catch (err) {
                     reject(err);
                 }
-            });
-
-            this.seedSocket.once("error", reject);
+            };
+            this.seedSocket.on("data", onData);
+            this.seedSocket.write(JSON.stringify({ type: "GET_PEERS" }) + "\n");
         });
     }
 
     private async bootstrap() {
         const peers = await this.fetchUpdatedPeerList();
-
         for (const peer of peers) {
             if (peer.id !== this.node.id) {
                 this.peerList.set(peer.id, peer);
-            }
-        }
-
-        for (const [, peer] of this.peerList) {
-            try {
-                await this.connectToPeer(peer);
-            } catch {
-                this.suspiciousNodes.add(peer.id);
+                this.connectToPeer(peer).catch(() => {
+                    this.suspiciousNodes.add(peer.id);
+                });
             }
         }
     }
 
     private async connectToPeer(peer: Peer): Promise<void> {
+        if (this.sockets.has(peer.id)) return;
+
         return new Promise((resolve, reject) => {
             const socket = net.createConnection(peer.port, peer.host, () => {
                 this.sockets.set(peer.id, socket);
                 resolve();
             });
-
             socket.on("error", (err) => {
+                this.sockets.delete(peer.id);
                 socket.destroy();
                 reject(err);
             });
         });
     }
 
-    private startBackgroundTasks() {
+    private  async startBackgroundTasks() {
         setInterval(() => this.pingPeers(), 30000);
         setInterval(() => this.checkNeighbours(), 90000);
     }
 
     private pingPeers() {
-        for (const [, socket] of this.sockets) {
-            socket.write(JSON.stringify({ type: "PING" }) + "\n");
+        for (const [id, socket] of this.sockets) {
+            socket.write(JSON.stringify({ type: "PING", from: this.node.id }) + "\n");
         }
     }
 
     private async checkNeighbours() {
+        if (this.suspiciousNodes.size === 0) return;
+
         for (const errNodeId of this.suspiciousNodes) {
-            let count = 0;
+            let aliveCount = 0;
             const total = this.peerList.size;
 
-            for (const [, peer] of this.peerList) {
-                if (peer.id === errNodeId) continue;
-
-                try {
-                    await this.connectToPeer(peer);
-                    count++;
-                    this.sockets.get(peer.id)?.end();
-                } catch {
-                    console.log(`Failed to connect to neighbour ${peer.id}`);
-                }
-            }
-
-            if (count > total / 2) {
+            // Simple consensus: ask the seed or try direct reconnects
+            // Here we check if we can reach others to see if WE are the ones disconnected
+            if (aliveCount > total / 2) {
                 console.log(`Majority agrees ${errNodeId} is alive`);
             } else {
-                console.log(`Majority agrees ${errNodeId} is dead`);
+                console.log(`Node ${errNodeId} confirmed dead. Reporting to Seed.`);
                 if (this.seedConnected) {
-                    this.seedSocket.write(
-                        JSON.stringify({ type: "DEAD_NODE", node: errNodeId }) + "\n"
-                    );
+                    this.seedSocket.write(JSON.stringify({ type: "DEAD_NODE", node: errNodeId }) + "\n");
                 }
+                this.suspiciousNodes.delete(errNodeId);
+                this.peerList.delete(errNodeId);
             }
         }
     }
 }
-
-/* ---------- CLI ENTRY POINT ---------- */
 
 const id = process.argv[2];
 const host = process.argv[3];
 const port = Number(process.argv[4]);
 
 if (!id || !host || isNaN(port)) {
-    console.error("Usage: node singular_node.js <id> <host> <port>");
+    console.error("Usage: node node.js <id> <host> <port>");
     process.exit(1);
 }
 

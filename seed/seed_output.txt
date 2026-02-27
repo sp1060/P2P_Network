@@ -1,0 +1,47 @@
+[2026-02-26T17:48:50.297Z] Seed running on port 8080
+[2026-02-26T17:50:40.830Z] Registered node1 (127.0.0.1:5000)
+[2026-02-26T17:50:49.197Z] Invalid JSON received
+[2026-02-26T17:51:15.750Z] Invalid JSON received
+[2026-02-26T17:53:00.702Z] Seed running on port 8080
+[2026-02-26T17:53:04.749Z] Registered node1 (127.0.0.1:5000)
+[2026-02-26T18:04:31.463Z] Seed Node initialized on port 8080
+[2026-02-26T18:06:53.511Z] Seed Node initialized on port 8080
+[2026-02-26T18:06:59.900Z] JOIN request from undefined (127.0.0.1:undefined)
+[2026-02-26T18:06:59.900Z] Admitted undefined. Network size: 1
+[2026-02-26T18:14:31.608Z] Seed Node initialized on port 8080
+[2026-02-26T18:14:57.414Z] JOIN request from node_1 (127.0.0.1:5500)
+[2026-02-26T18:14:57.414Z] Admitted node_1. Network size: 1
+[2026-02-26T18:17:08.008Z] Invalid message received.
+[2026-02-26T18:18:08.823Z] Seed Node initialized on port 8080
+[2026-02-26T18:18:12.160Z] JOIN request from node2 (127.0.0.1:5532)
+[2026-02-26T18:18:12.160Z] Admitted node2. Network size: 1
+[2026-02-26T18:18:18.730Z] Invalid message received.
+[2026-02-26T18:41:27.286Z] Seed Node initialized on port 8080
+[2026-02-26T18:42:23.289Z] JOIN request from test1 (127.0.0.1:5000)
+[2026-02-26T18:42:23.289Z] Admitted test1. Network size: 1
+[2026-02-26T18:43:46.328Z] JOIN request from ipAddr2 (127.0.0.1:5562)
+[2026-02-26T18:43:46.329Z] Admitted ipAddr2. Network size: 2
+[2026-02-26T18:45:37.644Z] JOIN request from ipAdddr3 (127.0.0.1:2992)
+[2026-02-26T18:45:37.645Z] Admitted ipAdddr3. Network size: 3
+[2026-02-26T18:46:00.644Z] JOIN request from ipAdddr3 (127.0.0.1:5100)
+[2026-02-26T18:46:00.644Z] Admitted ipAdddr3. Network size: 4
+[2026-02-26T18:49:09.477Z] JOIN request from ipAdddr3 (127.0.0.1:5100)
+[2026-02-26T18:49:09.477Z] Admitted ipAdddr3. Network size: 5
+[2026-02-26T18:49:16.192Z] JOIN request from ipAdddr3 (127.0.0.1:5321)
+[2026-02-26T18:49:16.192Z] Admitted ipAdddr3. Network size: 6
+[2026-02-26T18:49:45.280Z] JOIN request from ipAdddr3 (127.0.0.1:5321)
+[2026-02-26T18:49:45.280Z] Admitted ipAdddr3. Network size: 7
+[2026-02-26T18:52:27.750Z] Seed Node initialized on port 8080
+[2026-02-26T18:52:50.669Z] JOIN request from ip1 (127.0.0.1:5000)
+[2026-02-26T18:52:50.669Z] Admitted ip1. Network size: 1
+[2026-02-26T18:53:26.556Z] JOIN request from ip1 (127.0.0.1:5001)
+[2026-02-26T18:53:26.556Z] Admitted ip1. Network size: 2
+[2026-02-26T18:54:26.923Z] JOIN request from ipAddr2 (127.0.0.1:5500)
+[2026-02-26T18:54:26.923Z] Admitted ipAddr2. Network size: 3
+[2026-02-26T18:57:26.351Z] Seed Node initialized on port 8080
+[2026-02-26T18:57:32.866Z] JOIN request from test1 (127.0.0.1:5000)
+[2026-02-26T18:57:32.866Z] Admitted test1. Network size: 1
+[2026-02-26T18:57:37.372Z] JOIN request from ipAddr2 (127.0.0.1:5500)
+[2026-02-26T18:57:37.372Z] Admitted ipAddr2. Network size: 2
+[2026-02-26T18:58:02.972Z] JOIN request from ip1 (127.0.0.1:5600)
+[2026-02-26T18:58:02.972Z] Admitted ip1. Network size: 3
