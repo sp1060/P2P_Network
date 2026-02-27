@@ -76,6 +76,12 @@ class P2PNode {
 
             this.seedSocket.once("data", (data) => {
                 try {
+		    // Newline determined 
+		    // Store each request and determine how will the next stage get affected 
+		    // If I normally do JSON parse it will return an error
+		    let requests = data.toString();
+		    let requestsList = [];
+		    data.
                     const peers: Peer[] = JSON.parse(data.toString());
                     resolve(peers);
                 } catch (err) {
