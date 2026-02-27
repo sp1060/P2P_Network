@@ -45,3 +45,29 @@
 [2026-02-26T18:57:37.372Z] Admitted ipAddr2. Network size: 2
 [2026-02-26T18:58:02.972Z] JOIN request from ip1 (127.0.0.1:5600)
 [2026-02-26T18:58:02.972Z] Admitted ip1. Network size: 3
+[2026-02-27T11:11:57.073Z] Seed Node initialized on port 8080
+[2026-02-27T11:13:36.237Z] JOIN request from node1
+[2026-02-27T11:13:36.237Z] Admitted node1. Global Size: 1
+[2026-02-27T11:14:32.490Z] JOIN request from node2
+[2026-02-27T11:14:32.490Z] Admitted node2. Global Size: 2
+[2026-02-27T11:16:19.570Z] JOIN request from node3
+[2026-02-27T11:16:19.571Z] Admitted node3. Global Size: 3
+[2026-02-27T11:19:45.110Z] JOIN request from node2
+[2026-02-27T11:19:45.111Z] Admitted node2. Global Size: 4
+[2026-02-27T11:21:34.064Z] Seed Node initialized on port 8080
+[2026-02-27T11:22:12.472Z] JOIN request from node1
+[2026-02-27T11:22:12.473Z] Admitted node1. Global Size: 1
+[2026-02-27T11:22:24.679Z] JOIN request from node2
+[2026-02-27T11:22:24.679Z] Admitted node2. Global Size: 2
+[2026-02-27T11:24:01.042Z] JOIN request from node3
+[2026-02-27T11:24:01.042Z] Admitted node3. Global Size: 3
+[2026-02-27T11:26:15.205Z] JOIN request from node3
+[2026-02-27T11:26:15.205Z] Admitted node3. Global Size: 4
+[2026-02-27T11:32:53.398Z] Seed Node initialized on port 8080
+[2026-02-27T11:35:05.936Z] JOIN request from node1
+[2026-02-27T11:35:05.937Z] Admitted node1. Global Size: 1
+[2026-02-27T11:35:45.913Z] JOIN request from node2
+[2026-02-27T11:35:45.913Z] Admitted node2. Global Size: 2
+[2026-02-27T11:37:23.554Z] JOIN request from node3
+[2026-02-27T11:37:23.555Z] Admitted node3. Global Size: 3
+[2026-02-27T11:38:17.976Z] Removed node1 and updated global topology.
