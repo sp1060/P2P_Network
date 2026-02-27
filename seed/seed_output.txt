@@ -71,3 +71,24 @@
 [2026-02-27T11:37:23.554Z] JOIN request from node3
 [2026-02-27T11:37:23.555Z] Admitted node3. Global Size: 3
 [2026-02-27T11:38:17.976Z] Removed node1 and updated global topology.
+[2026-02-27T12:08:21.319Z] Seed Node initialized on port 8080
+[2026-02-27T12:09:32.300Z] JOIN request from node1
+[2026-02-27T12:09:32.300Z] Admitted node1. Global Size: 1
+[2026-02-27T12:12:04.632Z] JOIN request from node2
+[2026-02-27T12:12:04.633Z] Admitted node2. Global Size: 2
+[2026-02-27T12:13:34.966Z] Re-registration from node2. Removing stale entry.
+[2026-02-27T12:13:34.967Z] JOIN request from node2
+[2026-02-27T12:13:34.967Z] Admitted node2. Global Size: 2
+[2026-02-27T12:14:06.446Z] JOIN request from node3
+[2026-02-27T12:14:06.446Z] Admitted node3. Global Size: 3
+[2026-02-27T12:16:06.735Z] Removed node1 and updated global topology.
+[2026-02-27T12:21:46.789Z] Seed Node initialized on port 8080
+[2026-02-27T12:23:19.021Z] JOIN request from node1
+[2026-02-27T12:23:19.022Z] Admitted node1. Global Size: 1
+[2026-02-27T12:24:02.503Z] JOIN request from node2
+[2026-02-27T12:24:02.503Z] Admitted node2. Global Size: 2
+[2026-02-27T12:24:51.470Z] JOIN request from node3
+[2026-02-27T12:24:51.470Z] Admitted node3. Global Size: 3
+[2026-02-27T12:25:28.494Z] JOIN request from node4
+[2026-02-27T12:25:28.494Z] Admitted node4. Global Size: 4
+[2026-02-27T12:26:30.535Z] Removed node2 and updated global topology.
